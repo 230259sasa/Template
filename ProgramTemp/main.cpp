@@ -11,7 +11,7 @@ double MyMax(double a, double b);//倍精度
 //関数テンプレート
 template<typename T>
 T tMax(T a, T b) {
-	if (a > b)
+	if (a < b)
 		return b;
 	return a;
 }
@@ -25,16 +25,17 @@ public:
 	T GetX() { return x; }
 	void SetX(T _x) { x = _x; }
 	void PrintVec() { std::cout << "(x,y) = (" << x << "," << y << ")" << std::endl; }//インライン定義
-	T GetVec() { return sqrt(x * x + y * y); }
+	T Length() { return sqrt(x * x + y * y); }
 };
 //ベクトルの長さをT型で返すメンバ関数を作る
 //ベクトルの長さで比較する>演算子をオーバーロード
 //ベクトルの長さを比較し大きいほうを表示する
 
-template<typename T>
-inline bool operator >(T a, T b) {
 
-	return 
+inline bool operator >(Vec2<float> a,Vec2<float> b) {
+	if (a.Length() > b.Length())
+		return true;
+	return false;
 }
 
 int main() {
@@ -61,7 +62,16 @@ int main() {
 	v2.y = 5;
 	v2.PrintVec();
 
-	std::cout <<"長いほうの長さ"<< tMax(v.GetVec(), v2.GetVec()) << std::endl;
+	if (v > v2) {
+		std::cout << "1のほうが長い" << std::endl;
+		std::cout << "長さ" << v.Length() << std::endl;
+	}
+	else {
+		std::cout << "2のほうが長い" << std::endl;
+		std::cout << "長さ" << v2.Length() << std::endl;
+	}
+
+	std::cout <<"長いほうの長さ"<< tMax(v.Length(), v2.Length()) << std::endl;
 }
 
 int MyMax(int a, int b)
